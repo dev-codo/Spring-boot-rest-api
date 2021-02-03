@@ -1,22 +1,27 @@
 package io.udemy.dougllas.domain.repository;
 
 import io.udemy.dougllas.domain.entity.Cliente;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 public interface Clientes extends JpaRepository<Cliente, Integer> {
-    List<Cliente> findByNomeLike(String nome);
-} // OR...
+
+//    List<Cliente> findByNomeLike(String nome); OR, giving other name than Query methods...
+    @Query("select c from Cliente c where c.nome like :nome") // JPQL
+    List<Cliente> encontrarPorNome(@Param("nome") String nome);
+//    @Query("select * from Cliente c where c.nome like '%:nome%'", nativeQuery=true) // SQL
+
+    List<Cliente> findByNomeOrId(String nome, Integer id);
+
+    boolean existsByNome(String mingau);
+
+    @Modifying
+    void deleteByNome(String nome);
+} // OR, without JpaRepository - manually created methods...
 
 //@Repository
 //public class Clientes {

@@ -45,29 +45,35 @@ public class VendasApplication {
             List<Cliente> allClients = clientes.findAll();
             allClients.forEach(System.out::println);
 
-            System.out.println("-> Atualizando");
-            allClients.forEach(c -> {
-                c.setNome(c.getNome() + " updated.");
-                clientes.save(c);
-            });
-            allClients = clientes.findAll();
-            allClients.forEach(System.out::println);
+            boolean existe = clientes.existsByNome("asdf");
+            System.out.println(existe);
 
-            System.out.println("-> Buscando");
-            clientes.findByNomeLike("%ing%").forEach(System.out::println);
+            List<Cliente> byNome = clientes.encontrarPorNome("Mingau");
+            byNome.forEach(System.out::println);
 
-            System.out.println("-> Deletando");
-            clientes.findAll().forEach(c -> {
-                clientes.delete(c);
-            });
-
-            allClients = clientes.findAll();
-            if (allClients.isEmpty()) {
-                System.out.println("Nenhum cliente encontrado");
-            } else {
-                System.out.println("Existem clientes!");
-                allClients.forEach(System.out::println);
-            }
+//            System.out.println("-> Atualizando");
+//            allClients.forEach(c -> {
+//                c.setNome(c.getNome() + " updated.");
+//                clientes.save(c);
+//            });
+//            allClients = clientes.findAll();
+//            allClients.forEach(System.out::println);
+//
+//            System.out.println("-> Buscando");
+//            clientes.findByNomeLike("%ing%").forEach(System.out::println);
+//
+//            System.out.println("-> Deletando");
+//            clientes.findAll().forEach(c -> {
+//                clientes.delete(c);
+//            });
+//
+//            allClients = clientes.findAll();
+//            if (allClients.isEmpty()) {
+//                System.out.println("Nenhum cliente encontrado");
+//            } else {
+//                System.out.println("Existem clientes!");
+//                allClients.forEach(System.out::println);
+//            }
         };
     }
 
