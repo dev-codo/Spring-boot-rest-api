@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -17,13 +18,25 @@ public class ClienteController {
     @Autowired // OR...
     private Clientes clientes;
 
+//    ...this
 //    public ClienteController(Clientes clientes) {
 //        this.clientes = clientes;
 //    }
 
+    @GetMapping
+    public ResponseEntity getAllClientes(Cliente cliente) {
+        List<Cliente> clienteAll = clientes.findAll();
+
+        if (clienteAll.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return new ResponseEntity<>(clienteAll, HttpStatus.OK);
+    }
+
     @GetMapping("{id}")
-    @ResponseBody
-    public ResponseEntity<Cliente> getClienteById(@PathVariable Integer id) {
+//    @ResponseBody //not really necessary
+    public ResponseEntity getClienteById(@PathVariable Integer id) {
         Optional<Cliente> cliente = clientes.findById(id);
 
         if (cliente.isPresent()) {
@@ -32,6 +45,27 @@ public class ClienteController {
 
 //        return ResponseEntity.notFound().build(); OR...
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
     }
+
+    @PostMapping
+//    @ResponseBody //not really necessary
+    public ResponseEntity salvar(@RequestBody Cliente cliente) {
+        Cliente clienteSalvo = clientes.save(cliente);
+        return ResponseEntity.ok(clienteSalvo);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity deletar(@PathVariable Integer id) {
+
+        Optional<Cliente> cliente = clientes.findById(id);
+
+        if (cliente.isPresent()) {
+            clientes.delete(cliente.get());
+//            return ResponseEntity.noContent().build(); ...OR
+            return new ResponseEntity(HttpStatus.NO_CONTENT); // http 204
+        }
+
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
+    }
+
 }

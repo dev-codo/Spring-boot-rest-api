@@ -22,13 +22,14 @@ import java.util.List;
 //@RestController
 public class VendasApplication {
 
-    @Bean
-    public CommandLineRunner cmdLinerunner(@Autowired Clientes clientes) {
-        return args -> {
-            Cliente c = new Cliente(null, "Fulano");
-            clientes.save(c);
-        };
-    }
+    /* Substituido pelo metodo POST */
+//    @Bean
+//    public CommandLineRunner cmdLinerunner(@Autowired Clientes clientes) {
+//        return args -> {
+//            Cliente c = new Cliente(null, "Fulano");
+//            clientes.save(c);
+//        };
+//    }
 
     public static void main(String[] args) {
         SpringApplication.run(VendasApplication.class, args);
