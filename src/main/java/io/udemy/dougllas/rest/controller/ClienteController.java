@@ -68,4 +68,15 @@ public class ClienteController {
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity updater(@PathVariable Integer id, @RequestBody Cliente cliente) {
+        return clientes
+                .findById(id)
+                .map(clienteExistente -> {
+                    cliente.setId(clienteExistente.getId());
+                    clientes.save(cliente);
+                    return new ResponseEntity(HttpStatus.NO_CONTENT);
+                }).orElseGet(() -> new ResponseEntity(HttpStatus.NOT_FOUND));
+    }
+
 }
