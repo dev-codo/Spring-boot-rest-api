@@ -3,6 +3,8 @@ package io.udemy.dougllas.rest.controller;
 import io.udemy.dougllas.domain.entity.Cliente;
 import io.udemy.dougllas.domain.repository.Clientes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +25,7 @@ public class ClienteController {
 //        this.clientes = clientes;
 //    }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity getAllClientes(Cliente cliente) {
         List<Cliente> clienteAll = clientes.findAll();
 
@@ -75,8 +77,21 @@ public class ClienteController {
                 .map(clienteExistente -> {
                     cliente.setId(clienteExistente.getId());
                     clientes.save(cliente);
-                    return new ResponseEntity(HttpStatus.NO_CONTENT);
+                    return new ResponseEntity(HttpStatus.OK);
                 }).orElseGet(() -> new ResponseEntity(HttpStatus.NOT_FOUND));
+    }
+
+    /* Search/filter a cliente*/
+    @GetMapping("/search")
+    public ResponseEntity procurar(Cliente filtro) {
+        ExampleMatcher matcher = ExampleMatcher
+                                    .matching()
+                                    .withIgnoreCase()
+                                    .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        Example example = Example.of(filtro, matcher);
+        List<Cliente> lista = clientes.findAll(example);
+        return ResponseEntity.ok(lista);
     }
 
 }
