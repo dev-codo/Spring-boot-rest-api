@@ -24,7 +24,7 @@ public class ClienteController {
 //    }
 
     @GetMapping
-    public List<Cliente> getAllClientes(Cliente cliente) {
+    public List<Cliente> getAllClientes() {
 //        List<Cliente> clienteAll = clientes.findAll();
 //
 //        if (clienteAll.isEmpty()) {
@@ -60,6 +60,7 @@ public class ClienteController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente nao encontrado"));
     }
 
+    /* PUT is a mix of DELETE method with POST */
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updater(@PathVariable Integer id, @RequestBody Cliente cliente) {
