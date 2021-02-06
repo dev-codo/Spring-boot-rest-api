@@ -1,5 +1,9 @@
 package io.udemy.dougllas.rest.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * POST criado no Postman para visualização da DTO
  * {
@@ -13,6 +17,10 @@ package io.udemy.dougllas.rest.dto;
  *     ]
  * }
  */
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ItemPedidoDTO {
     private Integer produto;
     private Integer quantidade;
