@@ -16,10 +16,10 @@ import java.util.List;
 public class Pedido {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne //muitos Pedidos para um cliente
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
@@ -31,7 +31,7 @@ public class Pedido {
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens;
 
-    /* using LOMBOK */
+    /* replaced with LOMBOK */
 //    public Integer getId() {
 //        return id;
 //    }

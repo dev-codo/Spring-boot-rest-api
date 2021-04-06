@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class Produto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String descricao;
@@ -22,7 +22,18 @@ public class Produto {
     @Column(name = "preco_unitario")
     private BigDecimal preco;
 
-    /* using LOMBOK */
+
+/*NAO EXISTE na entidade Produto:
+
+@OneToMany(mappedBy = "produto")
+private List<ItemPedido> items;
+
+Produto nao precisa mapear uma colecao para ItemPedido, pq um produto (ex: Caneta) nao precisa apresentar todos os itensPedidos.
+
+O Produto so serao referenciados por ItemPedidos qdo existir uma venda (Pedido). O ItemPedido so existe qdo existe um Pedido.
+*/
+//    ----------------------------------------------------------
+    /* replaced with LOMBOK */
 //    public Integer getId() {
 //        return id;
 //    }

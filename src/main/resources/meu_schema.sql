@@ -1,4 +1,4 @@
---renomeado data.sql > meu_schema.sql, porque rodara duas vezes com a implementacao Jpa
+--renomeado data.sql > meu_schema.sql, senao rodara duas vezes com a implementacao Jpa
 --data.sql so eh utilizado com JdbcTemplate sem Jpa
 
 CREATE TABLE CLIENTE (

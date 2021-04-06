@@ -1,11 +1,10 @@
 package io.udemy.dougllas.rest.controller;
 
-import io.udemy.dougllas.domain.repository.Pedidos;
+import io.udemy.dougllas.domain.entity.Pedido;
+import io.udemy.dougllas.rest.dto.PedidoDTO;
 import io.udemy.dougllas.service.PedidoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/api/pedidos")
@@ -19,5 +18,12 @@ public class PedidoController {
         this.service = service;
     }
 
+    /* retornar Cod. (Integer) Pedido */
+    @PostMapping
+    @ResponseStatus(CREATED)
+    public Integer save(@RequestBody PedidoDTO dto) {
+        Pedido pedido = service.salvar(dto);
+        return pedido.getId();
+    }
 
 }

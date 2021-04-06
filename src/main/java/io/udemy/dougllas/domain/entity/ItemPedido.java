@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class ItemPedido {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
@@ -27,7 +27,7 @@ public class ItemPedido {
 
     private Integer quantidade;
 
-    /* using LOMBOK */
+    /* replaced with LOMBOK */
 //    public Integer getId() {
 //        return id;
 //    }

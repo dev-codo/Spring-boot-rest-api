@@ -8,12 +8,12 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface Clientes extends JpaRepository<Cliente, Integer> {
+public interface ClientesRepository extends JpaRepository<Cliente, Integer> {
 
 //    List<Cliente> findByNomeLike(String nome); OR, giving other name than Query methods...
-    @Query("select c from Cliente c where c.nome like :nome") // JPQL
-    List<Cliente> encontrarPorNome(@Param("nome") String nome);
-//    @Query("select * from Cliente c where c.nome like '%:nome%'", nativeQuery=true) // SQL
+    @Query("select c from Cliente c where c.nome like :neimi") // JPQL
+    List<Cliente> encontrarPorNome(@Param("neimi") String nome);
+//    @Query("select * from Cliente c where c.nome like '%:neimi%'", nativeQuery=true) // SQL
 
     List<Cliente> findByNomeOrId(String nome, Integer id);
 
@@ -22,13 +22,13 @@ public interface Clientes extends JpaRepository<Cliente, Integer> {
     @Modifying
     void deleteByNome(String nome);
 
-    /* get Cliente with Pedido */
+    /* get Cliente with Pedido | @OneToMany no Cliente */
     @Query("select c from Cliente c left join fetch c.pedidos where c.id = :id")
     Cliente findClienteFetchPedidos(@Param("id") Integer id);
 
-
 } // OR, without JpaRepository - manually created methods...
 
+/* aula 18 */
 //@Repository
 //public class Clientes {
 
@@ -75,15 +75,15 @@ public interface Clientes extends JpaRepository<Cliente, Integer> {
 //    }
 //
 //    @Transactional(readOnly = true)
-//    public List<Cliente> buscarPorNome(String nome) {
+//    public List<Cliente> buscarPorNome(String neimi) {
 ////        return jdbcTemplate.query(        // com JdbcTemplate
 ////                SELECT_ALL.concat(" where nome like ?"),
 ////                obterClienteRowMapper(),
 ////                "%" + nome + "%");
 //
-//        String jpql = "select c from Cliente c where c.nome like :nome";
+//        String jpql = "select c from Cliente c where c.nome like :neimi";
 //        TypedQuery<Cliente> query = entityManager.createQuery(jpql, Cliente.class);
-//        query.setParameter("nome", "%" + nome + "%");
+//        query.setParameter("neimi", "%" + neimi + "%");
 //        return query.getResultList();
 //    }
 //

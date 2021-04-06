@@ -15,8 +15,7 @@ import java.util.Set;
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String nome;
@@ -33,7 +32,7 @@ public class Cliente {
         this.nome = nome;
     }
 
-    /* using LOMBOK */
+    /* replaced with LOMBOK */
 //    public Integer getId() {
 //        return id;
 //    }
