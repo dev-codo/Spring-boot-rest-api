@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service // SpringBoot link a Interface com o Impl
@@ -51,7 +52,7 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.setCliente(cliente); // ate aqui, Pedido ainda nao esta salvo na DB
         pedidosRepo.save(pedido);
 
-        List<ItemPedido> itensPedido = converterItens(pedido, dto.getItens());
+        List<ItemPedido> itensPedido = converterParaItemPedido(pedido, dto.getItens());
         itemsPedidoRepo.saveAll(itensPedido);
         pedido.setItens(itensPedido);
 
@@ -59,7 +60,7 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     /* converter itensDto em ItemPedido */
-    private List<ItemPedido> converterItens(Pedido pedido, List<ItemPedidoDTO> itensDto) {
+    private List<ItemPedido> converterParaItemPedido(Pedido pedido, List<ItemPedidoDTO> itensDto) {
         if (itensDto.isEmpty()) {
             throw new RegraNegocioException("Nao eh possível realizar um pedido sem itens.");
         }
@@ -81,4 +82,10 @@ public class PedidoServiceImpl implements PedidoService {
                     return itemPedido;
                 }).collect(Collectors.toList());
     }
+
+    @Override
+    public Optional<Pedido> obterPedidoCompleto(Integer id) {
+        return pedidosRepo.acharItemPorId(id);
+    }
+
 }
