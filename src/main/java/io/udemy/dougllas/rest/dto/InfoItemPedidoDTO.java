@@ -1,4 +1,4 @@
-package io.udemy.dougllas.rest.controller;
+package io.udemy.dougllas.rest.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  *  DTO para visualizacao do client-side
@@ -30,11 +29,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class InfoPedidoDTO {
-    private Integer codigo; // codigo Pedido
-    private String cpf; // pega atraves do Cliente
-    private String nomeCliente; // pega atraves do Cliente
-    private BigDecimal total;
-    private String dataPedido;
-    private List<InfoItemPedidoDTO> itens;
+public class InfoItemPedidoDTO {
+    private String descricaoProduto; // pega atraves do Produto
+    private BigDecimal precoUnitario; // pega atraves do Produto
+    private Integer quantidade;
 }

@@ -1,5 +1,6 @@
-package io.udemy.dougllas.service.impl;
+package io.udemy.dougllas.rest.controller;
 
+import io.udemy.dougllas.exception.PedidoNaoEncontradoException;
 import io.udemy.dougllas.exception.RegraNegocioException;
 import io.udemy.dougllas.rest.ApiErrors;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,12 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(RegraNegocioException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiErrors handleRegraNegocioException(RegraNegocioException ex) {
-        String msgErro = ex.getMessage();
-        return new ApiErrors(msgErro);
+        return new ApiErrors(ex.getMessage());
+    }
+
+    @ExceptionHandler(PedidoNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiErrors handlePedidoNotFoundException(PedidoNaoEncontradoException ex) {
+        return new ApiErrors(ex.getMessage());
     }
 }

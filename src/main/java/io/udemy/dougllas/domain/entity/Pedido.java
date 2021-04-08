@@ -1,5 +1,6 @@
 package io.udemy.dougllas.domain.entity;
 
+import io.udemy.dougllas.domain.enums.StatusPedido;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,8 @@ public class Pedido {
     private LocalDate dataPedido;
 
     private BigDecimal total;
+
+    private StatusPedido status;
 
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens;

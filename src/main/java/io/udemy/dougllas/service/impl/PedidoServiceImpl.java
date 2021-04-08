@@ -4,10 +4,12 @@ import io.udemy.dougllas.domain.entity.Cliente;
 import io.udemy.dougllas.domain.entity.ItemPedido;
 import io.udemy.dougllas.domain.entity.Pedido;
 import io.udemy.dougllas.domain.entity.Produto;
+import io.udemy.dougllas.domain.enums.StatusPedido;
 import io.udemy.dougllas.domain.repository.ClientesRepository;
 import io.udemy.dougllas.domain.repository.ItemsPedidoRepository;
 import io.udemy.dougllas.domain.repository.PedidosRepository;
 import io.udemy.dougllas.domain.repository.ProdutosRepository;
+import io.udemy.dougllas.exception.PedidoNaoEncontradoException;
 import io.udemy.dougllas.exception.RegraNegocioException;
 import io.udemy.dougllas.rest.dto.ItemPedidoDTO;
 import io.udemy.dougllas.rest.dto.PedidoDTO;
@@ -50,6 +52,7 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.setTotal(dto.getTotal());
         pedido.setDataPedido(LocalDate.now());
         pedido.setCliente(cliente); // ate aqui, Pedido ainda nao esta salvo na DB
+        pedido.setStatus(StatusPedido.REALIZADO);
         pedidosRepo.save(pedido);
 
         List<ItemPedido> itensPedido = converterParaItemPedido(pedido, dto.getItens());
@@ -82,10 +85,21 @@ public class PedidoServiceImpl implements PedidoService {
                     return itemPedido;
                 }).collect(Collectors.toList());
     }
-
+//--------------------------------------------------------------------------------------------
     @Override
     public Optional<Pedido> obterPedidoCompleto(Integer id) {
         return pedidosRepo.acharItemPorId(id);
+    }
+//--------------------------------------------------------------------------------------------
+    @Override
+    @Transactional
+    public void atualizaStatus(Integer id, StatusPedido statusPedido) {
+        pedidosRepo
+                .findById(id)
+                .map(pedido -> {
+                    pedido.setStatus(statusPedido);
+                    return pedidosRepo.save(pedido);
+                }).orElseThrow(() -> new PedidoNaoEncontradoException());
     }
 
 }

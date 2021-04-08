@@ -2,6 +2,10 @@ package io.udemy.dougllas.rest.controller;
 
 import io.udemy.dougllas.domain.entity.ItemPedido;
 import io.udemy.dougllas.domain.entity.Pedido;
+import io.udemy.dougllas.domain.enums.StatusPedido;
+import io.udemy.dougllas.rest.dto.AtualizacaoStatusPedidoDTO;
+import io.udemy.dougllas.rest.dto.InfoItemPedidoDTO;
+import io.udemy.dougllas.rest.dto.InfoPedidoDTO;
 import io.udemy.dougllas.rest.dto.PedidoDTO;
 import io.udemy.dougllas.service.PedidoService;
 import org.springframework.util.CollectionUtils;
@@ -34,7 +38,7 @@ public class PedidoController {
         Pedido pedido = pedidoService.salvar(dto);
         return pedido.getId(); // in Postman: will return in response body with the pedido Id.
     }
-
+//--------------------------------------------------------------------------------------------
     /* consultar um Pedido pelo id */
     @GetMapping("{id}")
     public InfoPedidoDTO getById(@PathVariable Integer id) {
@@ -53,6 +57,7 @@ public class PedidoController {
                 .cpf(pedido.getCliente().getCpf())
                 .nomeCliente(pedido.getCliente().getNome())
                 .total(pedido.getTotal())
+                .status(pedido.getStatus().name())
                 .itens(converterItemPedido(pedido.getItens()))
                 .build();
     }
@@ -72,6 +77,15 @@ public class PedidoController {
                                 .quantidade(item.getQuantidade())
                                 .build()
                 ).collect(Collectors.toList());
+    }
+//--------------------------------------------------------------------------------------------
+     /* PUT/PATCH is a mix of DELETE method with POST */
+    @PatchMapping("{id}")
+    @ResponseStatus(NO_CONTENT) // 204
+    public void updateStatus(@PathVariable Integer id, // informado na Url
+                             @RequestBody AtualizacaoStatusPedidoDTO dto) { // informado no Body da requisicao (
+        String novoStatus = dto.getNovoStatus();
+        pedidoService.atualizaStatus(id, StatusPedido.valueOf(novoStatus));
     }
 
 }
