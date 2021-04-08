@@ -9,6 +9,8 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import javax.validation.Valid;
 import java.util.List;
 import static org.springframework.http.HttpStatus.*;
 
@@ -92,7 +94,7 @@ public class ProdutoController implements RestInterface<Produto> {
     @PostMapping
     @ResponseStatus(CREATED) // http 201
     @Override
-    public Produto salvar(@RequestBody Produto produto) {
+    public Produto salvar(@RequestBody @Valid Produto produto) {
         return produtosRepo.save(produto);
     }
 
@@ -113,7 +115,8 @@ public class ProdutoController implements RestInterface<Produto> {
     @PutMapping("{id}")
     @ResponseStatus(NO_CONTENT)
     @Override
-    public void updater(@PathVariable Integer id, @RequestBody Produto produto) {
+    public void updater(@PathVariable Integer id,
+                        @RequestBody @Valid Produto produto) {
         produtosRepo
                 .findById(id)
                 .map(prdExist -> {

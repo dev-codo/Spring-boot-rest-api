@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -27,8 +28,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PedidoDTO { // Data Transfer Object
+    @NotNull(message = "Informe o codigo do Cliente")
     private Integer cliente; // nao pode ter nome diferente (ex: idCliente), senao da erro com  @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @NotNull(message = "Campo Total do pedido eh obrigatorio")
     private BigDecimal total;
+
     private List<ItemPedidoDTO> itens;
 
     /* replaced with LOMBOK annotations above */

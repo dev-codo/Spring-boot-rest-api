@@ -125,7 +125,8 @@ public class ClienteController  implements RestInterface<Cliente> {
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Override
-    public void updater(@PathVariable Integer id,  @RequestBody Cliente cliente) {
+    public void updater(@PathVariable Integer id,
+                        @RequestBody @Valid Cliente cliente) {
         clientesRepo
                 .findById(id)
                 .map(clienteExistente -> {
