@@ -8,10 +8,14 @@ import java.util.List;
 public class ApiErrors {
 
     @Getter
-    private List<String> errors;
+    private List<String> eita_erros;
 
-    /* Transformar o objeto em uma array list */
+    /* Transformar o objeto/String Exception em uma array list */
     public ApiErrors(String mensagemErro) {
-        this.errors = Arrays.asList(mensagemErro);
+        this.eita_erros = Arrays.asList(mensagemErro);
+    }
+
+    public ApiErrors(List<String> errors) {
+        this.eita_erros = errors;
     }
 }

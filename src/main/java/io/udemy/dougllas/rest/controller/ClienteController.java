@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -104,7 +105,7 @@ public class ClienteController  implements RestInterface<Cliente> {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // http 201
     @Override
-    public Cliente salvar(@RequestBody Cliente cliente) {
+    public Cliente salvar(@RequestBody @Valid Cliente cliente) {
         return clientesRepo.save(cliente);
     }
 
