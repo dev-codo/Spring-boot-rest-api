@@ -18,11 +18,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+        auth.inMemoryAuthentication()
+                .passwordEncoder(passwordEncoder())
+                .withUser("mingau")
+                .password(passwordEncoder().encode("111"))
+                .roles("USER");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+        http
+            .csrf().disable()
+            .authorizeRequests()
+                .antMatchers("api/clientes/**")
+                    .authenticated()
+            .and()
+                .formLogin();
     }
 }
+
+    /*
+    * com formulário customizado:
+    * -----------------------------------
+    * .and()
+    *     .formLogin("/meu-login.html");
+    * -----------------------------------
+    * <form method="post">
+    *   <input type="text" name="username"
+    *   <input type="secret" name="password"
+    *       <button type="submit"...
+    * </form>
+    */
