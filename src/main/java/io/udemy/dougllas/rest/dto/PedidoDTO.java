@@ -29,13 +29,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PedidoDTO { // Data Transfer Object
-    @NotNull(message = "Informe o codigo do Cliente")
+    @NotNull(message = "{campo.codigo-cliente.obrigatorio}")
     private Integer cliente; // nao pode ter nome diferente (ex: idCliente), senao da erro com  @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @NotNull(message = "Campo Total do pedido eh obrigatorio")
+    @NotNull(message = "{campo.total-pedido.obrigatorio}")
     private BigDecimal total;
 
-    @NotEmptyList(message = "Pedido nao pode ser realizado sem itens.")
+    @NotEmptyList(message = "{campo.itens-pedido.obrigatorio}")
     private List<ItemPedidoDTO> itens;
 
     /* replaced with LOMBOK annotations above */

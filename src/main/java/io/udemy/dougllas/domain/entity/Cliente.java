@@ -20,11 +20,11 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty(message = "Nome eh obrigatorio!") // Bean validation
+    @NotEmpty(message = "{campo.nome.obrigatorio}") // Bean validation
     private String nome;
 
-//    @CPF(message = "Informe um CPF valido")
-    @NotEmpty(message = "Cpf eh obrigatorio!")
+//    @CPF(message = "{campo.cpf.invalido})
+    @NotEmpty(message = "{campo.cpf.obrigatorio}")
     @Column(length = 5)
     private String cpf;
 
