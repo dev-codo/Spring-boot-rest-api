@@ -1,5 +1,6 @@
 package io.udemy.dougllas.rest.dto;
 
+import io.udemy.dougllas.validation.NotEmptyList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,7 @@ public class PedidoDTO { // Data Transfer Object
     @NotNull(message = "Campo Total do pedido eh obrigatorio")
     private BigDecimal total;
 
+    @NotEmptyList(message = "Pedido nao pode ser realizado sem itens.")
     private List<ItemPedidoDTO> itens;
 
     /* replaced with LOMBOK annotations above */
