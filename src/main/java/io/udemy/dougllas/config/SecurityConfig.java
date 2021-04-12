@@ -18,7 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UsuarioServiceImpl usuarioService;
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder pswdEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         auth
             .userDetailsService(usuarioService)
-            .passwordEncoder(passwordEncoder());
+            .passwordEncoder(pswdEncoder());
     }
 
     @Override

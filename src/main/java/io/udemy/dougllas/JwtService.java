@@ -1,5 +1,7 @@
 package io.udemy.dougllas;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.udemy.dougllas.domain.entity.Usuario;
@@ -12,6 +14,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
 
 @Service
 public class JwtService {
@@ -24,16 +27,46 @@ public class JwtService {
 
     public String gerarToken(Usuario usuario) {
         long expLong = Long.valueOf(expiracao);
-        LocalDateTime dataHoraExpiracao = LocalDateTime.now().plusMinutes(expLong);
-        Instant instant = dataHoraExpiracao.atZone(ZoneId.systemDefault()).toInstant();
+        LocalDateTime dataHoraExpiracao_LocalDate = LocalDateTime.now().plusMinutes(expLong);
+        Instant instant = dataHoraExpiracao_LocalDate.atZone(ZoneId.systemDefault()).toInstant();
         Date data = Date.from(instant);
+
+//        HashMap<String, Object> claims = new HashMap<>();
+//        claims.put("emailUsuario", "usuario@email.com");
+//        claims.put("roles", "admin");
 
         return Jwts
                 .builder()
                 .setSubject(usuario.getLogin()) // nome usuario
                 .setExpiration(data)
+//                .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, chaveAssinatura)
                 .compact();
+    }
+
+    /* obter o Payload */
+    private Claims obterClaims(String token) throws ExpiredJwtException {
+        return Jwts
+                .parser() // decodificar o token
+                .setSigningKey(chaveAssinatura)
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    public boolean tokenValido(String token) {
+        try {
+            Claims claims = obterClaims(token);
+            Date dataHoraExpiracao_Date = claims.getExpiration();
+            LocalDateTime data = dataHoraExpiracao_Date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+            return !LocalDateTime.now().isAfter(data);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public String obterLoginUsuario(String token) throws ExpiredJwtException {
+        return obterClaims(token).getSubject(); // setSubject() -> gerarToken()
     }
 
     /* Teste local */
@@ -52,5 +85,12 @@ public class JwtService {
         Usuario usuario = Usuario.builder().login("mingau").build(); // builder() do Lombok p/criacao d'um objeto Usuario
         String token = jwtService.gerarToken(usuario);
         System.out.println(token);
+
+        boolean isTokenValido = jwtService.tokenValido(token);
+        System.out.println("O token esta valido? " + isTokenValido);
+
+        System.out.println(jwtService.obterLoginUsuario(token));
+
+        System.out.println("obterClaims() | " + jwtService.obterClaims(token));
     }
 }
