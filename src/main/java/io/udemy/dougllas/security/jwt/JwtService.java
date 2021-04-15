@@ -1,9 +1,10 @@
-package io.udemy.dougllas;
+package io.udemy.dougllas.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.udemy.dougllas.VendasApplication;
 import io.udemy.dougllas.domain.entity.Usuario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -14,7 +15,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.HashMap;
 
 @Service
 public class JwtService {
@@ -26,20 +26,15 @@ public class JwtService {
     private String chaveAssinatura;
 
     public String gerarToken(Usuario usuario) {
-        long expLong = Long.valueOf(expiracao);
+        long expLong = Long.parseLong(expiracao);
         LocalDateTime dataHoraExpiracao_LocalDate = LocalDateTime.now().plusMinutes(expLong);
         Instant instant = dataHoraExpiracao_LocalDate.atZone(ZoneId.systemDefault()).toInstant();
         Date data = Date.from(instant);
-
-//        HashMap<String, Object> claims = new HashMap<>();
-//        claims.put("emailUsuario", "usuario@email.com");
-//        claims.put("roles", "admin");
 
         return Jwts
                 .builder()
                 .setSubject(usuario.getLogin()) // nome usuario
                 .setExpiration(data)
-//                .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, chaveAssinatura)
                 .compact();
     }
@@ -65,11 +60,12 @@ public class JwtService {
         }
     }
 
+    /* obter o nome */
     public String obterLoginUsuario(String token) throws ExpiredJwtException {
         return obterClaims(token).getSubject(); // setSubject() -> gerarToken()
     }
 
-    /* Teste local */
+    /* ----------------- Teste local ----------------- */
     public static void main(String[] args) {
         /*
         * JwtService jwtService = new JwtService() -> null

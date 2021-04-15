@@ -17,7 +17,7 @@ public class UsuarioController {
     private final UsuarioServiceImpl userServiceImpl;
     private final PasswordEncoder pEncoder;
 
-    /* OR, this without declaring final on the objects above */
+    /* OR, this without declaring final (because Lombok) on the objects above */
 //    public UsuarioController(UsuarioServiceImpl userServiceImpl, PasswordEncoder pEncoder) {
 //        this.userServiceImpl = userServiceImpl;
 //        this.pEncoder = pEncoder;
