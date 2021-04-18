@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+/* Codificacao | Decodificacao do Token */
+
 @Service
 public class JwtService {
 

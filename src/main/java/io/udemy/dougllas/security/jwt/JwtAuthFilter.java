@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/* Interceptar a Request e obter o Token do Header
+*  se o Token eh valido, obter o Usuario e passar no contexto do Spring Security
+*/
+
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private JwtService jwtService;
