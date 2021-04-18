@@ -2,6 +2,7 @@ package io.udemy.dougllas.service.impl;
 
 import io.udemy.dougllas.domain.entity.Usuario;
 import io.udemy.dougllas.domain.repository.UsuarioRepository;
+import io.udemy.dougllas.exception.SenhaInvalidaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,18 @@ public class UsuarioServiceImpl implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository userRepo;
+
+    /* Verificar senha digitada com a senha criptografada em DB - ${security.jwt.chave-assinatura} */
+    public UserDetails autenticar(Usuario usuario) {
+        UserDetails user = loadUserByUsername(usuario.getLogin());
+        boolean senhasBatem = pEncoder.matches(usuario.getSenha(), user.getPassword());
+
+        if (senhasBatem) {
+            return user;
+        }
+
+        throw new SenhaInvalidaException();
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

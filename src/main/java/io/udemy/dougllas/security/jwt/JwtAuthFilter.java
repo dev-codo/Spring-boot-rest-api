@@ -32,7 +32,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        String authorization = response.getHeader("Authorization");
+        String authorization = request.getHeader("Authorization");
 
         if(authorization != null && authorization.startsWith("Bearer")) {
             String token = authorization.split(" ")[1];
